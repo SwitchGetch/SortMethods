@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 #include <chrono>
 #include <random>
 using namespace std;
@@ -10,6 +11,37 @@ using namespace chrono;
 class Sort
 {
 public:
+
+	static string Time(steady_clock::time_point start, steady_clock::time_point end)
+	{
+		string result = "";
+
+
+		int h = duration_cast<hours>(end - start).count();
+		int m = duration_cast<minutes>(end - start).count();
+		int s = duration_cast<seconds>(end - start).count();
+		int ms = duration_cast<milliseconds>(end - start).count();
+
+
+		int min = m - h * 60;
+		int sec = s - m * 60;
+		int milsec = ms - s * 1000;
+
+		result += to_string(h) + ":";
+		
+		if (to_string(min).size() == 2) result += to_string(min) + ":";
+		else result += "0" + to_string(min) + ":";
+
+		if (to_string(sec).size() == 2) result += to_string(sec) + ":";
+		else result += "0" + to_string(sec) + ":";
+
+		if (to_string(milsec).size() == 3) result += to_string(milsec);
+		else if (to_string(milsec).size() == 2) result += "0" + to_string(milsec);
+		else result += "00" + to_string(milsec);
+
+
+		return result;
+	}
 
 	template<typename T>
 	static bool CheckIfArrayIsSorted(vector<T> vec)
@@ -55,7 +87,7 @@ public:
 	template<typename T>
 	static void BubbleSort(vector<T>& vec)
 	{
-		if (CheckIfArrayIsSorted(vec)) return;
+		if (Sort::CheckIfArrayIsSorted(vec)) return;
 
 		for (int i = 1; i < vec.size(); i++)
 		{
@@ -72,7 +104,7 @@ public:
 	template<typename T>
 	static void SelectionSort(vector<T>& vec)
 	{
-		if (CheckIfArrayIsSorted(vec)) return;
+		if (Sort::CheckIfArrayIsSorted(vec)) return;
 
 		for (int i = 0; i < vec.size() / 2; i++)
 		{
@@ -93,7 +125,7 @@ public:
 	template<typename T>
 	static void QuickSort(vector<T>& vec)
 	{
-		if (CheckIfArrayIsSorted(vec)) return;
+		if (Sort::CheckIfArrayIsSorted(vec)) return;
 
 		vector<int> lower, equal{ vec[0] }, larger;
 
@@ -115,54 +147,6 @@ public:
 		for (int i : larger) result.push_back(i);
 
 		vec = result;
-	}
-
-	static void CheckBubbleSortTime(int size)
-	{
-		vector<int> vec;
-		Sort::ArrayCreation(vec, size);
-
-
-		auto start = steady_clock::now();
-
-		Sort::BubbleSort(vec);
-
-		auto end = steady_clock::now();
-
-
-		cout << "\nbubble sort time: " << duration_cast<milliseconds>(end - start).count() << " ms\n" << endl;
-	}
-
-	static void CheckSelectionSortTime(int size)
-	{
-		vector<int> vec;
-		Sort::ArrayCreation(vec, size);
-
-
-		auto start = steady_clock::now();
-
-		Sort::SelectionSort(vec);
-
-		auto end = steady_clock::now();
-
-
-		cout << "\nselection sort time: " << duration_cast<milliseconds>(end - start).count() << " ms\n" << endl;
-	}
-
-	static void CheckQuickSortTime(int size)
-	{
-		vector<int> vec;
-		Sort::ArrayCreation(vec, size);
-
-
-		auto start = steady_clock::now();
-
-		Sort::QuickSort(vec);
-
-		auto end = steady_clock::now();
-
-
-		cout << "\nquick sort time: " << duration_cast<milliseconds>(end - start).count() << " ms\n" << endl;
 	}
 
 };
