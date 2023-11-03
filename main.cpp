@@ -4,25 +4,36 @@ int main()
 {
 	srand(time(NULL));
 
+	steady_clock::time_point start, end;
+
 	vector<int> vec;
 	int size;
 
-	cout << "size: ";
+	cout << "array size: ";
 	cin >> size;
+
+
+	start = steady_clock::now();
 
 	Sort::ArrayCreation(vec, size);
 
+	end = steady_clock::now();
+
+	cout << "\ncreation time: " << Sort::Time(start, end) << endl;
+
 
 	Sort::Output(vec);
 
-	steady_clock::time_point start = steady_clock::now();
+	start = steady_clock::now();
 
 	Sort::QuickSort(vec);
 
-	steady_clock::time_point end = steady_clock::now();
+	end = steady_clock::now();
 
 	Sort::Output(vec);
 
 
-	cout << "quick sort time: " << Sort::Time(start, end);
+	cout << "\nquick sort time: " << Sort::Time(start, end) << endl;
+
+	while (true);
 }
