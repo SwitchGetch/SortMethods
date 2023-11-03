@@ -28,7 +28,7 @@ public:
 		int milsec = ms - s * 1000;
 
 		result += to_string(h) + ":";
-		
+
 		if (to_string(min).size() == 2) result += to_string(min) + ":";
 		else result += "0" + to_string(min) + ":";
 
@@ -136,17 +136,20 @@ public:
 			else equal.push_back(vec[i]);
 		}
 
+		vec.clear();
+
 		QuickSort(larger);
 
 		QuickSort(lower);
 
-		vector<int> result;
+		for (int i : lower) vec.push_back(i);
+		lower.clear();
 
-		for (int i : lower) result.push_back(i);
-		for (int i : equal) result.push_back(i);
-		for (int i : larger) result.push_back(i);
+		for (int i : equal) vec.push_back(i);
+		equal.clear();
 
-		vec = result;
+		for (int i : larger) vec.push_back(i);
+		larger.clear();
 	}
 
 };
