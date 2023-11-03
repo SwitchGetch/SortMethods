@@ -152,4 +152,53 @@ public:
 		larger.clear();
 	}
 
+	template<typename T>
+	static void MergeSort(vector<T>& vec)
+	{
+		if (Sort::CheckIfArrayIsSorted(vec)) return;
+		else if (vec.size() == 2) Sort::Swap(vec[0], vec[1]);
+		else
+		{
+			vector<T> temp1, temp2;
+
+			for (int i = 0; i < vec.size() / 2; i++) temp1.push_back(vec[i]);
+
+			for (int i = vec.size() / 2; i < vec.size(); i++) temp2.push_back(vec[i]);
+
+			vec.clear();
+
+			MergeSort(temp1);
+			MergeSort(temp2);
+
+			while (temp1.size() > 0 && temp2.size() > 0)
+			{
+				if (temp1[0] > temp2[0])
+				{
+					vec.push_back(temp2[0]);
+
+					temp2.erase(temp2.begin());
+				}
+				else if (temp1[0] < temp2[0])
+				{
+					vec.push_back(temp1[0]);
+
+					temp1.erase(temp1.begin());
+				}
+				else
+				{
+					vec.push_back(temp1[0]);
+
+					temp1.erase(temp1.begin());
+
+					vec.push_back(temp2[0]);
+
+					temp2.erase(temp2.begin());
+				}
+			}
+
+			for (int i = 0; i < temp1.size(); i++) vec.push_back(temp1[i]);
+			for (int i = 0; i < temp2.size(); i++) vec.push_back(temp2[i]);
+		}
+	}
+
 };
